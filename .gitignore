@@ -1,0 +1,4 @@
+*.pyc
+progressline.egg-info/
+dist/
+build/
