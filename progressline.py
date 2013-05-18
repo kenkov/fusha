@@ -1,51 +1,138 @@
 #! /usr/bin/env python
 # coding:utf-8
 
-from __future__ import division, print_function
+from __future__ import division
 import threading
 import time
 import sys
+import abc
 
 
-class ProgressLine(threading.Thread):
+class FushaTemplate(threading.Thread):
+    """Template class"""
+    __metaclass__ = abc.ABCMeta
 
-    def __init__(self, interval_time=0.12, title='waiting ...'):
+    def __init__(self, interval=0.12):
         threading.Thread.__init__(self)
-        self.interval_time = interval_time
-        self.title = title
+        self._interval = interval
         self._stop_flag = False
-        self._count = 0
         self.setDaemon(True)
+
+    @abc.abstractmethod
+    def format(self):
+        pass
+
+    @abc.abstractmethod
+    def exit_format(self):
+        pass
 
     def __enter__(self):
         self.start()
+        return self
 
     def __exit__(self, exc_type, exc_value, traceback):
         self._stop_flag = True
-        sys.stdout.write('\r{0} done\n'.format(self.title))
+        self.exit_format()
         sys.stdout.flush()
 
     def run(self):
         while not self._stop_flag:
-            if self._count in [0, 2, 6]:
-                sys.stdout.write('\r{0} -'.format(self.title))
-            elif self._count in [1, 5, 9]:
-                sys.stdout.write('\r{0} /'.format(self.title))
-            elif self._count in [3, 7]:
-                sys.stdout.write('\r{0} \\'.format(self.title))
-            elif self._count in [4, 8]:
-                sys.stdout.write('\r{0} |'.format(self.title))
+            self.format()
             sys.stdout.flush()
-            if self._count == 9:
-                self._count = 0
-            else:
-                self._count += 1
-            time.sleep(self.interval_time)
+            time.sleep(self._interval)
+
+
+class Fusha(FushaTemplate):
+
+    def __init__(self,
+                 interval=0.12,
+                 title='waiting ...'):
+        FushaTemplate.__init__(self, interval)
+        self.title = title
+        self._count = 0
+
+    def format(self):
+        if self._count in [0, 4]:
+            sys.stdout.write('\r{0} -'.format(self.title))
+        elif self._count in [1, 5]:
+            sys.stdout.write('\r{0} \\'.format(self.title))
+        elif self._count in [3, 7]:
+            sys.stdout.write('\r{0} /'.format(self.title))
+        elif self._count in [2, 6]:
+            sys.stdout.write('\r{0} |'.format(self.title))
+        # set count
+        if self._count == 7:
+            self._count = 0
+        else:
+            self._count += 1
+
+    def exit_format(self):
+        sys.stdout.write('\r{0} done\n'.format(self.title))
+
+
+class FushaBubble(FushaTemplate):
+
+    def __init__(self,
+                 interval=0.12,
+                 title='waiting ...'):
+        FushaTemplate.__init__(self, interval)
+        self.title = title
+        self._count = 0
+
+    def format(self):
+        if self._count % 3 == 0:
+            sys.stdout.write('\r{0} .'.format(self.title))
+        elif self._count % 3 == 1:
+            sys.stdout.write('\r{0} o'.format(self.title))
+        else:
+            sys.stdout.write('\r{0} O'.format(self.title))
+        # set count
+        if self._count == 2:
+            self._count = 0
+        else:
+            self._count += 1
+
+    def exit_format(self):
+        sys.stdout.write('\r{0} done\n'.format(self.title))
+
+
+class FushaBar(FushaTemplate):
+    def __init__(self, interval=0.12, bar_len=10):
+        FushaTemplate.__init__(self, interval)
+        self._percent = 0
+        self._bar_len = bar_len
+
+    def format(self):
+        interval = 100 // self._bar_len
+        finished = self._percent // interval
+        sys.stdout.write('\r{:3}% [{}{}]'.format(
+            self._percent,
+            "="*(finished),
+            " "*(self._bar_len-finished)))
+
+    def exit_format(self):
+        sys.stdout.write('\r{:3}% [{}]\n'.format(
+            100,
+            "="*(self._bar_len)))
+
+    def update(self, i):
+        self._percent = i
 
 
 if __name__ == '__main__':
 
-    print('start get application')
-    with ProgressLine(interval_time=0.12, title='now loading ...'):
-        time.sleep(3)
-    print('finish')
+    #print "Fusha start"
+    #with Fusha(interval=0.12, title='now loading ...'):
+    #    time.sleep(3)
+    #print "finish"
+    print "FushaBar start"
+    with FushaBar(interval=0.12, bar_len=100) as f:
+        for i in range(100):
+            f.update(i)
+            time.sleep(.1)
+    print "finish"
+
+    #print "FushaBubble start"
+    #with FushaBubble(interval=0.2, title="now loading ..."):
+    #    time.sleep(3)
+    #print "finish"

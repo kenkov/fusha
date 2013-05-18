@@ -32,3 +32,8 @@ with 文の中に待つ処理を書きます。
     start get application
     now loading ... done
     finish
+
+サンプル
+---------
+
+.. image:: Fusha.gif
