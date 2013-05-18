@@ -125,14 +125,15 @@ if __name__ == '__main__':
     #with Fusha(interval=0.12, title='now loading ...'):
     #    time.sleep(3)
     #print "finish"
-    print "FushaBar start"
-    with FushaBar(interval=0.12, bar_len=100) as f:
-        for i in range(100):
-            f.update(i)
-            time.sleep(.1)
-    print "finish"
 
-    #print "FushaBubble start"
-    #with FushaBubble(interval=0.2, title="now loading ..."):
-    #    time.sleep(3)
+    #print "FushaBar start"
+    #with FushaBar(interval=0.12, bar_len=20) as f:
+    #    for i in range(100):
+    #        f.update(i)
+    #        time.sleep(.1)
     #print "finish"
+
+    print "FushaBubble start"
+    with FushaBubble(interval=0.2, title="now loading ..."):
+        time.sleep(3)
+    print "finish"
