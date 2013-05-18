@@ -32,12 +32,12 @@ class FushaTemplate(threading.Thread):
 
     def __exit__(self, exc_type, exc_value, traceback):
         self._stop_flag = True
-        self.exit_format()
+        sys.stdout.write(self.exit_format())
         sys.stdout.flush()
 
     def run(self):
         while not self._stop_flag:
-            self.format()
+            sys.stdout.write(self.format())
             sys.stdout.flush()
             time.sleep(self._interval)
 
@@ -53,21 +53,23 @@ class Fusha(FushaTemplate):
 
     def format(self):
         if self._count in [0, 4]:
-            sys.stdout.write('\r{0} -'.format(self.title))
+            fmt = '\r{0} -'.format(self.title)
         elif self._count in [1, 5]:
-            sys.stdout.write('\r{0} \\'.format(self.title))
+            fmt = '\r{0} \\'.format(self.title)
         elif self._count in [3, 7]:
-            sys.stdout.write('\r{0} /'.format(self.title))
+            fmt = '\r{0} /'.format(self.title)
         elif self._count in [2, 6]:
-            sys.stdout.write('\r{0} |'.format(self.title))
+            fmt = '\r{0} |'.format(self.title)
         # set count
         if self._count == 7:
             self._count = 0
         else:
             self._count += 1
 
+        return fmt
+
     def exit_format(self):
-        sys.stdout.write('\r{0} done\n'.format(self.title))
+        return '\r{0} done\n'.format(self.title)
 
 
 class FushaBubble(FushaTemplate):
@@ -81,19 +83,20 @@ class FushaBubble(FushaTemplate):
 
     def format(self):
         if self._count % 3 == 0:
-            sys.stdout.write('\r{0} .'.format(self.title))
+            fmt = '\r{0} .'.format(self.title)
         elif self._count % 3 == 1:
-            sys.stdout.write('\r{0} o'.format(self.title))
+            fmt = '\r{0} o'.format(self.title)
         else:
-            sys.stdout.write('\r{0} O'.format(self.title))
+            fmt = '\r{0} O'.format(self.title)
         # set count
         if self._count == 2:
             self._count = 0
         else:
             self._count += 1
+        return fmt
 
     def exit_format(self):
-        sys.stdout.write('\r{0} done\n'.format(self.title))
+        return '\r{0} done\n'.format(self.title)
 
 
 class FushaBar(FushaTemplate):
@@ -105,15 +108,15 @@ class FushaBar(FushaTemplate):
     def format(self):
         interval = 100 // self._bar_len
         finished = self._percent // interval
-        sys.stdout.write('\r{:3}% [{}{}]'.format(
+        return '\r{:3}% [{}{}]'.format(
             self._percent,
             "="*(finished),
-            " "*(self._bar_len-finished)))
+            " "*(self._bar_len-finished))
 
     def exit_format(self):
-        sys.stdout.write('\r{:3}% [{}]\n'.format(
+        return '\r{:3}% [{}]\n'.format(
             100,
-            "="*(self._bar_len)))
+            "="*(self._bar_len))
 
     def update(self, i):
         self._percent = i
@@ -121,17 +124,17 @@ class FushaBar(FushaTemplate):
 
 if __name__ == '__main__':
 
-    #print "Fusha start"
-    #with Fusha(interval=0.12, title='now loading ...'):
-    #    time.sleep(3)
-    #print "finish"
+    print "Fusha start"
+    with Fusha(interval=0.12, title='now loading ...'):
+        time.sleep(3)
+    print "finish"
 
-    #print "FushaBar start"
-    #with FushaBar(interval=0.12, bar_len=20) as f:
-    #    for i in range(100):
-    #        f.update(i)
-    #        time.sleep(.1)
-    #print "finish"
+    print "FushaBar start"
+    with FushaBar(interval=0.12, bar_len=20) as f:
+        for i in range(100):
+            f.update(i)
+            time.sleep(.1)
+    print "finish"
 
     print "FushaBubble start"
     with FushaBubble(interval=0.2, title="now loading ..."):
