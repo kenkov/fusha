@@ -36,6 +36,8 @@ with 文の中に待つ処理を書きます。
 サンプル
 ---------
 
-.. image:: Fusha.gif
+.. image:: http://kenkov.jp/_images/software/Fusha.gif
 
-.. image:: http://kenkov.jp/_images/kenkovjp.png
+.. image:: http://kenkov.jp/_images/software/FushaBar.gif
+
+.. image:: http://kenkov.jp/_images/software/FushaBubble.gif
