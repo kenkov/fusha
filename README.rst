@@ -9,7 +9,7 @@ progress bar easily to inherit the class provided in this package.
 Features
 ----------
 
-*   You can easily use fusha by using the **with** statement like
+*   You can easily use fusha by using the **with** statement as follows;
 
     .. code-block:: python
 
@@ -17,7 +17,7 @@ Features
             waiting_function()
 
 *   You can easily write your own progress bar by inheriting
-    the **FushaTemplate** class like
+    the **FushaTemplate** class as follows;
 
     .. code-block:: python
 
