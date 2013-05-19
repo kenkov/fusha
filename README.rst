@@ -1,31 +1,30 @@
 ==============================
-progressline.py
+fusha.py
 ==============================
 
-くるくる回るプログレスバー(ただし、進行度合は表示されない。くるくる回るだけ)
+Fusha is an easily customizable progress bar package for Python.
+It contains default progress bars. However, you can write your own
+progress bar easily to inherit the class provided in this package.
 
-インストール
+Installation
 -------------
 
 .. code-block:: python
 
     $ python setup.py install
 
-使い方
---------
-
-with 文の中に待つ処理を書きます。
+How to Use
+---------------
 
 .. code-block:: python
 
     import time
+    import fusha
 
-    print('start get application')
-    with ProgressLine(0.12, title='now loading ...'):
+    print('start')
+    with fusha.Fusha(0.12, title='now loading ...'):
         time.sleep(3)
     print('finish')
-
-実行結果は
 
 .. code-block:: sh
 
@@ -33,11 +32,17 @@ with 文の中に待つ処理を書きます。
     now loading ... done
     finish
 
-サンプル
----------
+Screenshots
+-------------
+
+Fusha
 
 .. image:: http://kenkov.jp/_images/software/Fusha.gif
 
+FushaBar
+
 .. image:: http://kenkov.jp/_images/software/FushaBar.gif
+
+FushaBubble
 
 .. image:: http://kenkov.jp/_images/software/FushaBubble.gif

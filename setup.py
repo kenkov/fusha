@@ -4,11 +4,11 @@
 from setuptools import setup
 
 setup(
-    name="progressline",
+    name="fusha",
     version="0.1",
-    description="progressline for Python",
+    description="easily customizable progress bar",
     author="Noriyuki Abe",
     author_email="kenko.py@gmail.com",
     url="http://kenkov.jp",
-    py_modules=["progressline"]
+    py_modules=["fusha"]
 )
