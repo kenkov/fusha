@@ -14,6 +14,10 @@ def read_file(filename):
 setup(
     name="fusha",
     version="0.1",
+    classifiers=[
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3.3'
+    ],
     description="Easily customizable progress bar module",
     author="Noriyuki Abe",
     author_email="kenko.py@gmail.com",
