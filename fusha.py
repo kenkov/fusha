@@ -125,14 +125,14 @@ class FushaBar(FushaTemplate):
         self._percent = i
 
 
-def test_fusha():
+def test_fusha() -> None:
     print("Fusha start")
     with Fusha(interval=0.12, title='now loading ...'):
         time.sleep(3)
     print("finish")
 
 
-def test_fushabar():
+def test_fushabar() -> None:
     print("FushaBar start")
     with FushaBar(interval=0.12, bar_len=20) as f:
         for i in range(100):
@@ -141,7 +141,7 @@ def test_fushabar():
     print("finish")
 
 
-def test_fushabubble():
+def test_fushabubble() -> None:
 
     print("FushaBubble start")
     with FushaBubble(interval=0.2, title="now loading ..."):
