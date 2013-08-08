@@ -14,14 +14,14 @@ MIT License (MIT)
 Features
 ----------
 
-*   You can easily use fusha by using the **with** statement as follows;
+*   You can use fusha by using the **with** statement as follows;
 
     .. code-block:: python
 
         with Fusha():
             waiting_function()
 
-*   You can easily write your own progress bar by inheriting
+*   You can write your own progresss bars by inheriting
     the **FushaTemplate** class as follows;
 
     .. code-block:: python
@@ -130,7 +130,8 @@ The following code downloads a content with the FushaBar progress bar.
             url,
             filename="hogefuga"
             reporthook=lambda count, total, size: f.update(
-            int(100 * float(count) * total / size)))
+                int(100 * float(count) * total / size))
+        )
 
 How to Customize
 -------------------
