@@ -3,8 +3,13 @@ fusha.py
 ==============================
 
 Fusha is an easily customizable progress bar module for Python.
-It contains default progress bars. However, you can write your own
-progress bar easily to inherit the class provided in this package.
+It contains several progress bars which you can use after installing it; however, you can write your own
+progress bars to inherit the class provided in this package.
+
+License
+---------
+
+MIT License (MIT)
 
 Features
 ----------
@@ -74,10 +79,15 @@ Fusha provides three default progress bars. You can use them as follows.
     import time
     from fusha import Fusha, FushaBar, FushaBubble
 
+    # FushaBar
     print "Fusha start"
     with Fusha(interval=0.12, title='now loading ...'):
         time.sleep(3)
     print "finish"
+
+.. image:: http://kenkov.jp/_images/software/Fusha.gif
+
+.. code-block:: python
 
     print "FushaBar start"
     with FushaBar(interval=0.12, bar_len=20) as f:
@@ -86,35 +96,51 @@ Fusha provides three default progress bars. You can use them as follows.
             time.sleep(.1)
     print "finish"
 
+.. image:: http://kenkov.jp/_images/software/FushaBar.gif
+
+.. code-block:: python
+
     print "FushaBubble start"
     with FushaBubble(interval=0.2, title="now loading ..."):
         time.sleep(3)
     print "finish"
 
-Screenshots
--------------
-
-Fusha
-
-.. image:: http://kenkov.jp/_images/software/Fusha.gif
-
-FushaBar
-
-.. image:: http://kenkov.jp/_images/software/FushaBar.gif
-
-FushaBubble
-
 .. image:: http://kenkov.jp/_images/software/FushaBubble.gif
+
+
+Application
+--------------
+
+The following code downloads a content with the FushaBar progress bar.
+
+.. code-block:: python
+
+    #! /usr/bin/env python
+    # coding:utf-8
+
+    from urllib.request import urlretrieve as retrieve
+    from fusha import FushaBar
+
+
+    if __name__ == '__main__':
+
+    url = "http://here/is/the/url/which/you/want/to/download"
+    with FushaBar(bar_len=100) as f:
+        retrieve(
+            url,
+            filename="hogefuga"
+            reporthook=lambda count, total, size: f.update(
+            int(100 * float(count) * total / size)))
 
 How to Customize
 -------------------
 
-You can easily create your own progress bar.
+You can create your own progress bars.
 
-First, you should create a new class which inherits the **FushaTemplate** class.
-Then, you should override two methods - **format** and **exit_format** .
-The **format** method will be called while your function is running in the with statement;
-on the other hand, the **exit_format** will be called after finishing your function.
+First, implement a new class which inherits the **FushaTemplate** class provided in this module.
+Then, override two methods - **format** and **exit_format** .
+The **format** method will be called while your function running in the **with** statement.
+On the other hand, the **exit_format** method will be called after your function is finished.
 Both functions should return string.
 
 The following code is for FushaBubble:
@@ -148,8 +174,3 @@ The following code is for FushaBubble:
 
         def exit_format(self):
             return '\r{0} done\n'.format(self.title)
-
-License
----------
-
-The MIT License (MIT)
