@@ -115,14 +115,9 @@ The following code downloads a content with the FushaBar progress bar.
 
 .. code-block:: python
 
-    #! /usr/bin/env python
-    # coding:utf-8
-
     from urllib.request import urlretrieve as retrieve
     from fusha import FushaBar
 
-
-    if __name__ == '__main__':
 
     url = "http://here/is/the/url/which/you/want/to/download"
     with FushaBar(bar_len=100) as f:
